@@ -1,0 +1,28 @@
+{
+  "name": "skrim",
+  "version": "0.0.0",
+  "description": "Irken plugin for managing application overlays.",
+  "author": "Blaine Bublitz <blaine@iceddev.com> (http://iceddev.com)",
+  "contributors": [],
+  "repository": "iceddev/skrim",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 0.10"
+  },
+  "main": "index.js",
+  "files": [
+    "LICENSE",
+    "index.js"
+  ],
+  "scripts": {
+    "test": "zuul test/*.js --local --open"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": [
+    "irken",
+    "overlay",
+    "plugin",
+    "views"
+  ]
+}
