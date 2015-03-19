@@ -1,6 +1,6 @@
 {
   "name": "skrim",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Irken plugin for managing application overlays.",
   "author": "Blaine Bublitz <blaine@iceddev.com> (http://iceddev.com)",
   "contributors": [],
