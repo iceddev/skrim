@@ -12,13 +12,23 @@
   "main": "index.js",
   "files": [
     "LICENSE",
-    "index.js"
+    "index.js",
+    "overlay.js",
+    "styles.js"
   ],
   "scripts": {
-    "test": "zuul test/*.js --local --open"
+    "test": "zuul test/*.js --local --open",
+    "build": "gulp",
+    "prepublish": "npm run build"
   },
-  "dependencies": {},
-  "devDependencies": {},
+  "dependencies": {
+    "lodash": "^3.5.0"
+  },
+  "devDependencies": {
+    "babel": "^4.7.16",
+    "gulp": "git://github.com/gulpjs/gulp#4.0",
+    "gulp-babel": "^4.0.0"
+  },
   "keywords": [
     "irken",
     "overlay",

@@ -29,3 +29,8 @@ node_modules
 
 # Garbage files
 .DS_Store
+
+# ignore the built files
+/index.js
+/overlay.js
+/styles.js
