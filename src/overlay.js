@@ -1,84 +1,80 @@
 'use strict';
 
 const React = require('react');
+const noop = require('lodash/utility/noop');
 const assign = require('lodash/object/assign');
 
 const styles = require('./styles');
 
 class Overlay extends React.Component {
   constructor(){
-    this.state = {
-      display: 'none'
-    };
-
-    this.show = this.show.bind(this);
-    this.hide = this.hide.bind(this);
-    this.content = this.content.bind(this);
     this.bodyListener = this.bodyListener.bind(this);
   }
 
   bodyListener(evt){
-    var el = React.findDOMNode(this._child);
-    if(el && !el.contains(evt.target)){
-      this.hide();
+    var container = React.findDOMNode(this._container);
+
+    if(!this.props.shown){
+      return;
+    }
+
+    if(!container){
+      this.props.hide();
+      return;
+    }
+
+    if(container === evt.target || !container.contains(evt.target)){
+      this.props.hide();
     }
   }
 
   componentDidMount(){
+    const container = React.findDOMNode(this._container);
+
     document.body.addEventListener('click', this.bodyListener, false);
+
+    if(container){
+      this.props.renderer(container);
+    }
+  }
+
+  componentDidUpdate(){
+    const container = React.findDOMNode(this._container);
+
+    if(container){
+      this.props.renderer(container);
+    }
   }
 
   componentWillUnmount(){
     document.body.removeEventListener('click', this.bodyListener);
   }
 
-  content(component){
-    const clonedComponent = React.cloneElement(component, {
-      ref: (ref) => this._child = ref
-    });
+  render(){
+    let style = {};
 
-    this.setState({
-      component: clonedComponent
-    });
-  }
-
-  show(options){
-    let style = {
-      display: 'flex'
-    };
-
-    if(options.backdrop){
-      assign(style, {
-        top: 0,
-        bottom: 0,
-        left: 0,
-        right: 0,
-        backgroundColor: 'rgba(0,0,0,0.5)'
-      });
+    if(this.props.shown){
+      style.display = 'flex';
+    } else {
+      style.display = 'none';
     }
 
-    this.setState({
-      style: style
-    });
-  }
+    if(this.props.backdrop){
+      assign(style, styles.backdrop);
+    }
 
-  hide(){
-    let style = {
-      display: 'none'
-    };
+    assign(style, styles.overlay);
 
-    this.setState({
-      style: style
-    });
-  }
-
-  render(){
     return (
-      <div style={assign(styles.overlay, this.state.style)}>
-        {this.state.component}
-      </div>
+      <div style={style} ref={(ref) => this._container = ref}></div>
     );
   }
 }
+
+Overlay.defaultProps = {
+  hide: noop,
+  show: noop,
+  renderer: noop
+};
 
 module.exports = Overlay;
