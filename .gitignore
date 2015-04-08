@@ -34,3 +34,5 @@ node_modules
 /index.js
 /overlay.js
 /styles.js
+/toast.js
+/toast-container.js
