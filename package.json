@@ -14,7 +14,9 @@
     "LICENSE",
     "index.js",
     "overlay.js",
-    "styles.js"
+    "styles.js",
+    "toast.js",
+    "toast-container.js"
   ],
   "scripts": {
     "test": "zuul test/*.js --local --open",
