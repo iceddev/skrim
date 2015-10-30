@@ -8,11 +8,27 @@ const styles = require('./styles');
 
 class Overlay extends React.Component {
   constructor(){
+    this.tabListener = this.tabListener.bind(this);
     this.bodyListener = this.bodyListener.bind(this);
   }
 
+  // TODO: complete
+  // from http://www.smashingmagazine.com/2014/09/making-modal-windows-better-for-everyone/
+  tabListener(evt){
+    const container = React.findDOMNode(this);
+
+    if(!this.props.shown){
+      return;
+    }
+
+    if(!container.contains(evt.target)){
+      evt.stopPropagation();
+      container.focus();
+    }
+  }
+
   bodyListener(evt){
-    var container = React.findDOMNode(this._container);
+    const container = React.findDOMNode(this._container);
 
     if(!this.props.shown){
       return;
@@ -29,9 +45,10 @@ class Overlay extends React.Component {
   }
 
   componentDidMount(){
-    const container = React.findDOMNode(this._container);
+    const container = React.findDOMNode(this);
 
     document.body.addEventListener('click', this.bodyListener, false);
+    document.addEventListener('focus', this.tabListener, true);
 
     if(container){
       this.props.renderer(container);
@@ -39,7 +56,7 @@ class Overlay extends React.Component {
   }
 
   componentDidUpdate(){
-    const container = React.findDOMNode(this._container);
+    const container = React.findDOMNode(this);
 
     if(container){
       this.props.renderer(container);
@@ -48,6 +65,7 @@ class Overlay extends React.Component {
 
   componentWillUnmount(){
     document.body.removeEventListener('click', this.bodyListener);
+    document.removeEventListener('focus', this.tabListener);
   }
 
   render(){
@@ -66,7 +84,7 @@ class Overlay extends React.Component {
     assign(style, styles.overlay);
 
     return (
-      <div style={style} ref={(ref) => this._container = ref}></div>
+      <div style={style}></div>
     );
   }
 }
